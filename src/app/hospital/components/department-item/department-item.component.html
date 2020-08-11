@@ -1,0 +1,29 @@
+<form [formGroup]="departmentForm">
+    <section formGroupName="info">
+        <mat-form-field >
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>API key</mat-label>
+            <input matInput formControlName="apiKey">
+        </mat-form-field>
+    </section>
+    <section formGroupName="contactPerson">
+        <mat-form-field >
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>Telephone</mat-label>
+            <input matInput formControlName="telephone">
+        </mat-form-field>
+    </section>
+    <button mat-button color="primary" (click)="editMode ? saveItem($event) : createItem($event)">save</button>
+    <button mat-button color="warn" [routerLink]="['..']">cancel</button>
+</form>
+

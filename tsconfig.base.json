@@ -15,6 +15,20 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@hdm-hospital/components/*": [
+        "src/app/hospital/components/*"
+      ],
+      "@hdm-hospital/pages/*": [
+        "src/app/hospital/pages/*"
+      ],
+      "@hdm-hospital/services/*": [
+        "src/app/hospital/services/*"
+      ],
+      "@hdm-hospital/models/*": [
+        "src/app/hospital/models/*"
+      ]
+    }
   }
 }

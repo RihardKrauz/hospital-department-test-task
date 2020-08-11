@@ -1,0 +1,19 @@
+<h1>Departments</h1>
+
+<section>
+    <input matInput [ngModel]="filterValue" (ngModelChange)="changeFilterValue($event)" />
+    <button mat-button [routerLink]="['..', 'create']">Create new department</button>
+</section>
+
+
+<section *ngIf="(departments$ | async) as departments; else loading">
+    <hdm-department-tile
+        *ngFor="let dep of departments; trackBy: trackById"
+        [item]="dep"
+    ></hdm-department-tile>
+</section>
+
+<ng-template #loading>
+    <mat-spinner></mat-spinner>
+</ng-template>
+

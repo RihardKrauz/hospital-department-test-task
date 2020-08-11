@@ -1,0 +1,4 @@
+<p>{{item.info.name}}</p>
+
+<a [routerLink]="['..', 'edit', item.id]" >OPEN</a>
+<button mat-button (click)="deleteItem($event, item.id)" >DELETE</button>
