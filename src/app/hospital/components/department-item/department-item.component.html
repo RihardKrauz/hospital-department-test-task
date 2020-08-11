@@ -1,6 +1,10 @@
-<form [formGroup]="departmentForm">
-    <section formGroupName="info">
-        <mat-form-field >
+<form class="department-form" [formGroup]="departmentForm">
+    <div *ngIf="isLoading" class="loader">
+        <div class="spinner-wrapper"><mat-spinner></mat-spinner></div>
+    </div>
+    <section class="field-group" formGroupName="info">
+        <span class="field-group-label">Department Info</span>
+        <mat-form-field>
             <mat-label>Name</mat-label>
             <input matInput formControlName="name">
         </mat-form-field>
@@ -8,22 +12,58 @@
             <mat-label>API key</mat-label>
             <input matInput formControlName="apiKey">
         </mat-form-field>
+
+        <ng-container formArrayName="extraFields">
+            <ng-container *ngFor="let cField of infoCustomFields.controls; index as i">
+                <ng-container [formGroup]="cField" >
+                    <mat-form-field >
+                        <mat-label>{{infoCustomFields.controls[i].get('name').value}}</mat-label>
+                        <input matInput formControlName="value">
+                    </mat-form-field>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+
+        <div>
+            <button mat-flat-button color="accent" (click)="addNewCustomFieldOnForm($event, 'info')">
+                Add new field
+            </button>
+        </div>
     </section>
-    <section formGroupName="contactPerson">
+    <section class="field-group" formGroupName="contactPerson">
+        <span class="field-group-label">Contact Person</span>
         <mat-form-field >
             <mat-label>Name</mat-label>
             <input matInput formControlName="name">
         </mat-form-field>
         <mat-form-field >
             <mat-label>Email</mat-label>
-            <input matInput formControlName="email">
+            <input matInput type="email" formControlName="email">
         </mat-form-field>
         <mat-form-field >
             <mat-label>Telephone</mat-label>
-            <input matInput formControlName="telephone">
+            <input matInput tyle="tel" formControlName="telephone">
         </mat-form-field>
-    </section>
-    <button mat-button color="primary" (click)="editMode ? saveItem($event) : createItem($event)">save</button>
-    <button mat-button color="warn" [routerLink]="['..']">cancel</button>
-</form>
 
+        <ng-container formArrayName="extraFields">
+            <ng-container *ngFor="let cField of contactCustomFields.controls; index as i">
+                <ng-container [formGroup]="cField" >
+                    <mat-form-field >
+                        <mat-label>{{contactCustomFields.controls[i].get('name').value}}</mat-label>
+                        <input matInput formControlName="value">
+                    </mat-form-field>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+
+        <div>
+            <button mat-flat-button color="accent" (click)="addNewCustomFieldOnForm($event,'contactPerson')">
+                Add new field
+            </button>
+        </div>
+    </section>
+    <button mat-button color="primary" (click)="editMode ? saveItem($event) : createItem($event)">
+        {{editMode ? 'UPDATE' : 'CREATE'}}
+    </button>
+    <button mat-button color="warn" (click)="toList($event)">CANCEL</button>
+</form>

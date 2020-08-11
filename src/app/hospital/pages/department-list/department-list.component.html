@@ -1,15 +1,22 @@
 <h1>Departments</h1>
 
 <section>
-    <input matInput [ngModel]="filterValue" (ngModelChange)="changeFilterValue($event)" />
+    <mat-form-field >
+        <mat-label>Search</mat-label>
+        <input matInput [ngModel]="filterValue" (ngModelChange)="changeFilterValue($event)">
+    </mat-form-field>
     <button mat-button [routerLink]="['..', 'create']">Create new department</button>
 </section>
 
 
-<section *ngIf="(departments$ | async) as departments; else loading">
+<section
+    *ngIf="(departments$ | async) as departments; else loading"
+    class="tiles-container"
+>
     <hdm-department-tile
         *ngFor="let dep of departments; trackBy: trackById"
         [item]="dep"
+        (refreshContainer)="refreshTiles()"
     ></hdm-department-tile>
 </section>
 

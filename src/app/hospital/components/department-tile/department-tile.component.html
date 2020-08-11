@@ -1,4 +1,22 @@
-<p>{{item.info.name}}</p>
+<div class="tile">
+    <div class="tile__content">
+        <p>{{item.info.name}}</p>
+        <mat-icon>domain</mat-icon>
+    </div>
 
-<a [routerLink]="['..', 'edit', item.id]" >OPEN</a>
-<button mat-button (click)="deleteItem($event, item.id)" >DELETE</button>
+    <div class="tile__actions">
+        <button mat-flat-button [matMenuTriggerFor]="itemOptions" color="warn">
+            Open <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+        <mat-menu #itemOptions="matMenu">
+            <button mat-menu-item [disabled]="isLoading" (click)="navigateForItem(item.id)">
+                <mat-icon>edit</mat-icon> Edit
+            </button>
+            <button mat-menu-item [disabled]="isLoading" (click)="showRemovalConfirmation(item.id)">
+                <mat-icon>delete</mat-icon> Delete
+            </button>
+        </mat-menu>
+<!--        <button mat-button [disabled]="isLoading" (click)="navigateForItem(item.id)">OPEN</button>-->
+<!--        <button mat-button [disabled]="isLoading" (click)="showRemovalConfirmation(item.id)">DELETE</button>-->
+    </div>
+</div>

@@ -9,6 +9,8 @@ import {DepartmentListComponent} from './pages/department-list/department-list.c
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { DepartmentTileComponent } from './components/department-tile/department-tile.component';
 import { DepartmentItemComponent } from './components/department-item/department-item.component';
+import { DepartmentCustomFieldModalComponent } from './components/department-custom-field-modal/department-custom-field-modal.component';
+import { RemoveConfirmationDialogComponent } from './components/remove-confirmation-dialog/remove-confirmation-dialog.component';
 
 @NgModule({
     declarations: [
@@ -18,6 +20,8 @@ import { DepartmentItemComponent } from './components/department-item/department
         DepartmentListComponent,
         DepartmentTileComponent,
         DepartmentItemComponent,
+        DepartmentCustomFieldModalComponent,
+        RemoveConfirmationDialogComponent,
     ],
     imports: [
         CommonModule,

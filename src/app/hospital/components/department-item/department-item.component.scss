@@ -1,0 +1,43 @@
+.field-group {
+    display: flex;
+    flex-flow: column;
+    border: solid 1px;
+    margin: 28px 0;
+    position: relative;
+
+    & > * {
+        padding: 8px 16px;
+    }
+
+    & > *:nth-child(2) {
+        margin-top: 24px;
+    }
+
+    .field-group-label {
+        padding: 0 8px;
+        position: absolute;
+        top: -10px;
+        left: 20px;
+        background-color: #303030;
+    }
+}
+
+.loader {
+    position: absolute;
+    z-index: 2;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255,255,255,0.3);
+    pointer-events: none;
+}
+
+.department-form {
+    position: relative;
+    width: 400px;
+}
+
+.spinner-wrapper {
+    padding: 32px;
+    justify-content: center;
+    display: flex;
+}

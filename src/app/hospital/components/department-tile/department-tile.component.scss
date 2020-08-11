@@ -1,0 +1,17 @@
+.tile {
+    width: 250px;
+    padding: 14px;
+    border: solid 1px;
+    margin: 14px;
+
+    &__content {
+        text-align: center;
+        padding: 14px;
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: center;
+        padding: 14px;
+    }
+}

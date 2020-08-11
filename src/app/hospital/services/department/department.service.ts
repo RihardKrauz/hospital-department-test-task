@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Department} from '@hdm-hospital/models/department';
-import {ServiceError} from '@hdm-hospital/models/service-error';
+import {CustomFieldsCollection} from '@hdm-hospital/models/custom-fields-collection';
 import {Observable, of, throwError} from 'rxjs';
 import {ErrorMethodResult, MethodResult, SuccessMethodResult, mapMethodResultToValue} from '@hdm-hospital/models/method-result';
 import {catchError, map, mergeMap} from 'rxjs/operators';
@@ -8,13 +8,14 @@ import {catchError, map, mergeMap} from 'rxjs/operators';
 let departments: Department[] = [
     {
         id: '7dc53df5-703e-49b3-8670-b1c468f47f1f',
-        info: {name: 'Cardiology', apiKey: '55555df5-703e-49b3-8670-b1c468f47f1f'},
-        contactPerson: {name: 'Evgeniy Chkalov', email: 'echkalov@gmail.com', telephone: '+79052262767'}
+        info: {name: 'Cardiology', apiKey: '55555df5-703e-49b3-8670-b1c468f47f1f', extraFields: []},
+        contactPerson: {name: 'Evgeniy Chkalov', email: 'echkalov@gmail.com', telephone: '+79052262767', extraFields: []},
+
     },
     {
         id: 'ddc542f5-803e-49b3-8670-b1c468111f1f',
-        info: {name: 'Oncology', apiKey: '444442f5-803e-49b3-8670-b1c468111f1f'},
-        contactPerson: {name: 'Rihard Krauz', email: 'rihardkrauz@gmail.com', telephone: '89056685454'}
+        info: {name: 'Oncology', apiKey: '444442f5-803e-49b3-8670-b1c468111f1f', extraFields: []},
+        contactPerson: {name: 'Rihard Krauz', email: 'rihardkrauz@gmail.com', telephone: '89056685454', extraFields: []}
     }
 ];
 
@@ -28,7 +29,8 @@ export class DepartmentService {
     }
 
     public getDepartmentById(id: string): Observable<MethodResult<Department>> {
-        const department = departments.find(d => d.id === id);
+        // tslint:disable-next-line:triple-equals
+        const department = departments.find(d => d.id == id);
         return department ? of(new SuccessMethodResult(department)) : of(new ErrorMethodResult(`Cannot find department with id = ${id}`));
     }
 
@@ -58,6 +60,24 @@ export class DepartmentService {
         departments = departments.filter(d => d.id !== id);
 
         return of(new SuccessMethodResult('Item has been successfully removed'));
+    }
+
+    public getCustomFields(): Observable<MethodResult<CustomFieldsCollection>> {
+        const getCustomFieldsByField = (fieldName: string) => departments
+
+            // get custom fields names
+            .map(d => d[fieldName].extraFields.map(cf => cf.name))
+
+            // flatten them
+            .reduce((arr, cur) => [...arr, ...cur], [])
+
+            // distinct unique
+            .reduce((arr, cur) => arr.indexOf(cur) === -1 ? [...arr, cur] : arr, []);
+
+        return of(new SuccessMethodResult({
+            info: getCustomFieldsByField('info'),
+            contactPerson: getCustomFieldsByField('contactPerson')
+        }));
     }
 
 }
