@@ -41,3 +41,11 @@
     justify-content: center;
     display: flex;
 }
+
+.form-actions {
+    display: flex;
+
+    & > * {
+        margin-right: 12px;
+    }
+}

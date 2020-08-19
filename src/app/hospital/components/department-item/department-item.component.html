@@ -25,7 +25,7 @@
         </ng-container>
 
         <div>
-            <button mat-flat-button color="accent" (click)="addNewCustomFieldOnForm($event, 'info')">
+            <button mat-button color="accent" (click)="addNewCustomFieldOnForm($event, 'info')">
                 Add new field
             </button>
         </div>
@@ -42,7 +42,7 @@
         </mat-form-field>
         <mat-form-field >
             <mat-label>Telephone</mat-label>
-            <input matInput tyle="tel" formControlName="telephone">
+            <input matInput type="tel" formControlName="telephone">
         </mat-form-field>
 
         <ng-container formArrayName="extraFields">
@@ -57,13 +57,17 @@
         </ng-container>
 
         <div>
-            <button mat-flat-button color="accent" (click)="addNewCustomFieldOnForm($event,'contactPerson')">
+            <button mat-button color="accent" (click)="addNewCustomFieldOnForm($event,'contactPerson')">
                 Add new field
             </button>
         </div>
     </section>
-    <button mat-button color="primary" (click)="editMode ? saveItem($event) : createItem($event)">
-        {{editMode ? 'UPDATE' : 'CREATE'}}
-    </button>
-    <button mat-button color="warn" (click)="toList($event)">CANCEL</button>
+
+    <section class="form-actions">
+        <button mat-flat-button color="primary" (click)="editMode ? saveItem($event) : createItem($event)">
+            {{editMode ? 'UPDATE' : 'CREATE'}}
+        </button>
+        <button mat-flat-button color="warn" (click)="toList($event)">CANCEL</button>
+    </section>
+
 </form>

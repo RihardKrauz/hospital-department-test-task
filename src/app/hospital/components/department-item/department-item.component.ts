@@ -20,6 +20,7 @@ import {NotificationService} from '@hdm-hospital/services/notification/notificat
 import {MatDialog} from '@angular/material/dialog';
 import {DepartmentCustomFieldModalComponent} from '@hdm-hospital/components/department-custom-field-modal/department-custom-field-modal.component';
 import {CustomFieldsCollection} from '@hdm-hospital/models/custom-fields-collection';
+import {CustomField} from '@hdm-hospital/models/custom-field';
 
 @Component({
     selector: 'hdm-department-item',
@@ -61,8 +62,9 @@ export class DepartmentItemComponent implements OnInit, OnDestroy {
 
         if (this.item) {
             this.generateDynamicArrayFields(this.item);
-
             this.departmentForm.setValue(this.item);
+        } else {
+            this.generateDynamicArrayFields();
         }
 
     }
@@ -114,9 +116,16 @@ export class DepartmentItemComponent implements OnInit, OnDestroy {
         });
 
         dialogRef.afterClosed().subscribe(name => {
-            if (!name) { return; }
+            if (!name) {
+                return;
+            }
 
-            this.addCustomField(parentControlName, name);
+            if (!this.customFieldExistsInGroup(parentControlName, name)) {
+                this.addCustomField(parentControlName, name);
+            } else {
+                this.notificationService.showErrorMessage(`Field with name "${name}" is already exists`);
+            }
+
             this.cdr.markForCheck();
         });
     }
@@ -153,7 +162,7 @@ export class DepartmentItemComponent implements OnInit, OnDestroy {
         this.departmentForm.controls.id.setValue(Date.now());
     }
 
-    private generateDynamicArrayFields(item: Department): void {
+    private generateDynamicArrayFields(item?: Department): void {
 
         this.subs.add(this.departmentService.getCustomFields().subscribe(fieldsResult => {
             if (!fieldsResult.isOk) {
@@ -169,15 +178,23 @@ export class DepartmentItemComponent implements OnInit, OnDestroy {
         }));
     }
 
-    private setCustomFieldsList(collection: CustomFieldsCollection, collectionType: keyof CustomFieldsCollection, item: Department): void {
+    private setCustomFieldsList(collection: CustomFieldsCollection, collectionType: keyof CustomFieldsCollection, item?: Department): void {
         if (collection[collectionType] && collection[collectionType].length) {
             for (const fieldName of collection[collectionType]) {
                 this.addCustomField(collectionType, fieldName);
+                if (!item) { continue; }
+
                 if (item[collectionType].extraFields.map(cf => cf.name).indexOf(fieldName) === -1) {
                     item[collectionType].extraFields.push({ name: fieldName, value: '' });
                 }
             }
         }
+    }
+
+    private customFieldExistsInGroup(parentControlName: string, fieldName: string): boolean {
+        const fieldsContainer = this.departmentForm.controls[parentControlName].get('extraFields') as FormArray;
+        const customFields = fieldsContainer.value as CustomField<string>[];
+        return customFields.some(cf => cf.name === fieldName);
     }
 
 }

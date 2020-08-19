@@ -11,6 +11,7 @@ import { DepartmentTileComponent } from './components/department-tile/department
 import { DepartmentItemComponent } from './components/department-item/department-item.component';
 import { DepartmentCustomFieldModalComponent } from './components/department-custom-field-modal/department-custom-field-modal.component';
 import { RemoveConfirmationDialogComponent } from './components/remove-confirmation-dialog/remove-confirmation-dialog.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 @NgModule({
     declarations: [
@@ -22,6 +23,7 @@ import { RemoveConfirmationDialogComponent } from './components/remove-confirmat
         DepartmentItemComponent,
         DepartmentCustomFieldModalComponent,
         RemoveConfirmationDialogComponent,
+        NotificationComponent,
     ],
     imports: [
         CommonModule,
